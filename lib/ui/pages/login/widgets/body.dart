@@ -5,7 +5,7 @@ import '../../../../config/use_case_config.dart';
 import '../../../common/tokens/colors.dart';
 
 // Determina si los botones del cuerpo se mostraran
-final StateProvider<bool> boolProvider = StateProvider<bool>((_) => true);
+final StateProvider<bool> buttonsProvider = StateProvider<bool>((_) => true);
 
 class LoginBody extends ConsumerWidget {
   LoginBody({Key? key}) : super(key: key);
@@ -43,10 +43,10 @@ class LoginBody extends ConsumerWidget {
           child: ElevatedButton(
             onPressed: () {
               _config.loginUseCase.sheetLogin(context, onDismiss: () {
-                ref.read(boolProvider.state).state = true;
+                ref.read(buttonsProvider.state).state = true;
               });
 
-              ref.read(boolProvider.state).state = false;
+              ref.read(buttonsProvider.state).state = false;
             },
             style:
                 ElevatedButton.styleFrom(backgroundColor: TokensColors.white),
@@ -78,7 +78,7 @@ class LoginBody extends ConsumerWidget {
   }
 
   Widget _buildButton(WidgetRef ref, {required Widget child}) {
-    final bool showButtons = ref.watch(boolProvider);
+    final bool showButtons = ref.watch(buttonsProvider);
 
     return AnimatedOpacity(
       opacity: showButtons ? 1 : 0,

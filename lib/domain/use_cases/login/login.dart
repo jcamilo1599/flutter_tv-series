@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../ui/pages/login/widgets/sheet.dart';
+import '../../../config/provider/provider.dart';
+import '../../../infrastructure/handlers/handlers.dart';
+import '../../../ui/common/atoms/alert.dart';
+import '../../../ui/pages/login/widgets/body.dart' show buttonsProvider;
+import '../../../ui/pages/login/widgets/sheet.dart'
+    show LoginSheet, loadingProvider;
+import '../../models/login/login.dart';
 
 class LoginUseCase {
   LoginUseCase();
@@ -16,5 +23,38 @@ class LoginUseCase {
       barrierColor: Colors.transparent,
       builder: (_) => LoginSheet(onDismiss: onDismiss),
     );
+  }
+
+  Future<void> login(
+    WidgetRef ref,
+    BuildContext context, {
+    required LoginModel loginData,
+  }) async {
+    Future<void>.delayed(const Duration(milliseconds: 1200), () {
+      if (loginData.name == 'maria' && loginData.pass == 'password' ||
+          loginData.name == 'pedro' && loginData.pass == '123456') {
+        ref.read(sessionProvider.notifier).token = '123';
+        ref.read(sessionProvider.notifier).user = loginData.name;
+        ref.read(buttonsProvider.state).state = true;
+
+        Future<void>.delayed(const Duration(milliseconds: 100), () {
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            Handlers.getInitialRoute(),
+            (Route<dynamic> route) => false,
+          );
+        });
+      } else {
+        showDialog<void>(
+          context: context,
+          builder: (BuildContext context) => const AtomAlert(
+            title: 'Upps...',
+            description: 'Email o contraseña incorrecta',
+          ),
+        );
+      }
+
+      ref.read(loadingProvider.state).state = false;
+    });
   }
 }
