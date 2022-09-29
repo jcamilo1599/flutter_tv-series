@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../config/provider/provider.dart';
-import '../../../infrastructure/handlers/handlers.dart';
+import '../../common/tokens/colors.dart';
+import 'widgets/body.dart';
 
 class LoginPage extends ConsumerWidget {
   static const String routeName = '/';
@@ -11,29 +11,48 @@ class LoginPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String token = ref.watch(sessionProvider).token;
-
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                ref.read(sessionProvider.notifier).token = '123';
-
-                Future<void>.delayed(const Duration(milliseconds: 100), () {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    Handlers.getInitialRoute(),
-                    (Route<dynamic> route) => false,
-                  );
-                });
-              },
-              child: const Text('Iniciar sesión'),
+      body: Stack(
+        children: <Widget>[
+          ..._background(),
+          SafeArea(
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 200),
+                child: LoginBody(),
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
+  }
+
+  List<Widget> _background() {
+    return <Widget>[
+      // Imagen
+      Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('images/cover.png'),
+            fit: BoxFit.cover,
+          ),
+        ) /* add child content here */,
+      ),
+
+      // Degradado
+      Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: <Color>[
+              Colors.transparent,
+              TokensColors.black,
+            ],
+          ),
+        ),
+      ),
+    ];
   }
 }
