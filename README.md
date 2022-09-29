@@ -6,8 +6,9 @@ visto recientes.
 
 # Dependencias
 
-- http: ^0.13.4
-- flutter_riverpod: ^2.0.0-dev.9
+- http (consumo de api)
+- flutter_riverpod (manejador de estados)
+- shared_preferences (persistencia de datos)
 
 # Versión
 
