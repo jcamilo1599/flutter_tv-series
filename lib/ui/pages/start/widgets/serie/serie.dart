@@ -2,8 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../config/provider/provider.dart';
-import '../../../infrastructure/handlers/handlers.dart';
+import '../../../../../config/provider/provider.dart';
 
 class SeriePage extends ConsumerWidget {
   static const String routeName = '/serie';
@@ -16,20 +15,7 @@ class SeriePage extends ConsumerWidget {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                ref.read(sessionProvider.notifier).token = '';
 
-                Future<void>.delayed(const Duration(milliseconds: 100), () {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    Handlers.getInitialRoute(),
-                    (Route<dynamic> route) => false,
-                  );
-                });
-              },
-              child: const Text('Cerrar sesión'),
-            ),
             CarouselSlider(
               options: CarouselOptions(
                 aspectRatio: 1,

@@ -8,6 +8,7 @@ class Themes {
     useMaterial3: true,
     brightness: Brightness.dark,
     fontFamily: TokensFonts.gilroy,
+    scaffoldBackgroundColor: TokensColors.black,
     colorScheme: ThemeData.dark().colorScheme.copyWith(
           primary: TokensColors.yellow,
         ),
@@ -17,7 +18,7 @@ class Themes {
       headline3: TextStyle(fontWeight: FontWeight.w600),
       headline4: TextStyle(fontWeight: FontWeight.w600),
       headline5: TextStyle(fontWeight: FontWeight.w600),
-      headline6: TextStyle(fontWeight: FontWeight.w600),
+      headline6: TextStyle(fontWeight: FontWeight.w300),
       subtitle1: TextStyle(fontWeight: FontWeight.w600),
       subtitle2: TextStyle(fontWeight: FontWeight.w600),
       bodyText1: TextStyle(fontWeight: FontWeight.w300),

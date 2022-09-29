@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../ui/pages/home/home.dart';
 import '../../ui/pages/login/login.dart';
+import '../../ui/pages/start/start.dart';
 
 class Handlers {
   // Rutas para usuarios con sesión inactiva
@@ -12,7 +12,7 @@ class Handlers {
 
   // Rutas para usuarios con sesión activa
   static Map<String, WidgetBuilder> _activeSession() => <String, WidgetBuilder>{
-        HomePage.routeName: (BuildContext context) => const HomePage(),
+        StartPage.routeName: (BuildContext context) => const StartPage(),
       };
 
   // Obtiene las rutas de la aplicación
