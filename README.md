@@ -12,6 +12,7 @@ visto recientes.
 - carousel_slider (se utilizara en la pantalla de la serie)
 - json_annotation (mapeo de datos)
 - json_serializable (mapeo de datos)
+- network_image_mock (pruebas unitarias de imagenes)
 
 # Versión
 
