@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class AtomAlert extends StatelessWidget {
+class AtomAlert extends ConsumerWidget {
   final String title;
   final String description;
 
@@ -11,7 +12,7 @@ class AtomAlert extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return AlertDialog(
       title: Text(title),
       content: Text(

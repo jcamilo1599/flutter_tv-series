@@ -4,13 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../config/use_case_config.dart';
 import '../../../common/tokens/colors.dart';
 
-// Determina si los botones del cuerpo se mostraran
-final StateProvider<bool> buttonsProvider = StateProvider<bool>((_) => true);
-
 class LoginBody extends ConsumerWidget {
   LoginBody({Key? key}) : super(key: key);
 
   final UseCaseConfig _config = UseCaseConfig();
+
+  // Determina si los botones del cuerpo se mostraran
+  static final StateProvider<bool> buttonsProvider = StateProvider<bool>((_) => true);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -5,9 +5,6 @@ import '../../../../config/use_case_config.dart';
 import '../../../../domain/models/login/login.dart';
 import '../../../common/tokens/colors.dart';
 
-// Determina si mostrara o no la animación de cargando
-final StateProvider<bool> loadingProvider = StateProvider<bool>((_) => false);
-
 class LoginSheet extends ConsumerWidget {
   final Null Function() onDismiss;
 
@@ -15,6 +12,9 @@ class LoginSheet extends ConsumerWidget {
     required this.onDismiss,
     Key? key,
   }) : super(key: key);
+
+  // Determina si mostrara o no la animación de cargando
+  static final StateProvider<bool> loadingProvider = StateProvider<bool>((_) => false);
 
   final UseCaseConfig _config = UseCaseConfig();
 

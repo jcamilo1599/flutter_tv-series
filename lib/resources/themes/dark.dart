@@ -10,8 +10,11 @@ class Themes {
     fontFamily: TokensFonts.gilroy,
     scaffoldBackgroundColor: TokensColors.black,
     colorScheme: ThemeData.dark().colorScheme.copyWith(
+          brightness: Brightness.dark,
           primary: TokensColors.yellow,
+          surfaceTint: TokensColors.yellow,
         ),
+    appBarTheme: const AppBarTheme(backgroundColor: TokensColors.black),
     textTheme: const TextTheme(
       headline1: TextStyle(fontWeight: FontWeight.w600),
       headline2: TextStyle(fontWeight: FontWeight.w600),

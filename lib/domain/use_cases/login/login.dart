@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../config/provider/provider.dart';
+import '../../../config/provider.dart';
 import '../../../infrastructure/handlers/handlers.dart';
 import '../../../ui/common/atoms/alert.dart';
-import '../../../ui/pages/login/widgets/body.dart' show buttonsProvider;
-import '../../../ui/pages/login/widgets/sheet.dart'
-    show LoginSheet, loadingProvider;
+import '../../../ui/pages/login/widgets/body.dart';
+import '../../../ui/pages/login/widgets/sheet.dart';
 import '../../models/login/login.dart';
 
 class LoginUseCase {
@@ -35,7 +34,7 @@ class LoginUseCase {
           loginData.name == 'pedro' && loginData.pass == '123456') {
         ref.read(sessionProvider.notifier).token = '123';
         ref.read(sessionProvider.notifier).user = loginData.name;
-        ref.read(buttonsProvider.state).state = true;
+        ref.read(LoginBody.buttonsProvider.state).state = true;
 
         Future<void>.delayed(const Duration(milliseconds: 100), () {
           Navigator.pushNamedAndRemoveUntil(
@@ -54,7 +53,7 @@ class LoginUseCase {
         );
       }
 
-      ref.read(loadingProvider.state).state = false;
+      ref.read(LoginSheet.loadingProvider.state).state = false;
     });
   }
 }

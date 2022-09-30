@@ -16,7 +16,19 @@ class SessionPreferences {
 
   set user(String value) => _prefs?.setString('user', value);
 
+  set popular(String value) => _prefs?.setString('popular', value);
+
+  set favorites(String value) => _prefs?.setString('favorites', value);
+
+  set recents(String value) => _prefs?.setString('recents', value);
+
   String get token => _prefs?.getString('token') ?? '';
 
   String get user => _prefs?.getString('user') ?? '';
+
+  String get popular => _prefs?.getString('popular') ?? '';
+
+  String get favorites => _prefs?.getString('favorites') ?? '';
+
+  String get recents => _prefs?.getString('recents') ?? '';
 }

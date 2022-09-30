@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'series_episode_crew.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class SeriesEpisodeCrewModel {
   final String job;
   final String department;

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../config/provider/provider.dart';
+import '../../../config/provider.dart';
 import '../../../infrastructure/handlers/handlers.dart';
 import '../../common/tokens/colors.dart';
+import 'widgets/home/home.dart';
 
 // Determina si los botones del cuerpo se mostraran
 final StateProvider<int> selectedNavBarProvider = StateProvider<int>((_) => 0);
@@ -19,7 +20,6 @@ class StartPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: TokensColors.black,
         title: Text(
           _titles[selectedNavBar],
           style: Theme.of(context).textTheme.headline6,
@@ -77,17 +77,15 @@ class StartPage extends ConsumerWidget {
     'Search',
   ];
 
-  static const List<Widget> _pages = <Widget>[
-    Text(
-      'Index 0',
-    ),
-    Text(
+  static final List<Widget> _pages = <Widget>[
+    HomePage(),
+    const Text(
       'Index 1',
     ),
-    Text(
+    const Text(
       'Index 2',
     ),
-    Text(
+    const Text(
       'Index 3',
     ),
   ];

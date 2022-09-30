@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'network.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class NetworkModel {
   final int id;
   final String name;

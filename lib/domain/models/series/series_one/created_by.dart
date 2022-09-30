@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'created_by.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class CreatedByModel {
   final int id;
   final String creditId;

@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 't_episode_to_air.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class TEpisodeToAirModel {
   final DateTime airDate;
   final int episodeNumber;

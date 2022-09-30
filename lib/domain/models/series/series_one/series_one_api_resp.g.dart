@@ -9,93 +9,104 @@ part of 'series_one_api_resp.dart';
 SeriesOneApiRespModel _$SeriesOneApiRespModelFromJson(
         Map<String, dynamic> json) =>
     SeriesOneApiRespModel(
-      adult: json['adult'] as bool,
-      backdropPath: json['backdropPath'] as String,
-      createdBy: (json['createdBy'] as List<dynamic>)
-          .map((e) => CreatedByModel.fromJson(e as Map<String, dynamic>))
+      adult: json['adult'] as bool?,
+      backdropPath: json['backdrop_path'] as String?,
+      createdBy: (json['created_by'] as List<dynamic>?)
+          ?.map((e) => CreatedByModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      episodeRunTime: json['episodeRunTime'] as List<dynamic>,
-      firstAirDate: DateTime.parse(json['firstAirDate'] as String),
-      genres: (json['genres'] as List<dynamic>)
-          .map((e) => GenreModel.fromJson(e as Map<String, dynamic>))
+      episodeRunTime: json['episode_run_time'] as List<dynamic>?,
+      firstAirDate: json['first_air_date'] == null
+          ? null
+          : DateTime.parse(json['first_air_date'] as String),
+      genres: (json['genres'] as List<dynamic>?)
+          ?.map((e) => GenreModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      homepage: json['homepage'] as String,
-      id: json['id'] as int,
-      inProduction: json['inProduction'] as bool,
-      languages:
-          (json['languages'] as List<dynamic>).map((e) => e as String).toList(),
-      lastAirDate: DateTime.parse(json['lastAirDate'] as String),
-      lastEpisodeToAir: TEpisodeToAirModel.fromJson(
-          json['lastEpisodeToAir'] as Map<String, dynamic>),
-      name: json['name'] as String,
-      nextEpisodeToAir: TEpisodeToAirModel.fromJson(
-          json['nextEpisodeToAir'] as Map<String, dynamic>),
-      networks: (json['networks'] as List<dynamic>)
-          .map((e) => NetworkModel.fromJson(e as Map<String, dynamic>))
+      homepage: json['homepage'] as String?,
+      id: json['id'] as int?,
+      inProduction: json['in_production'] as bool?,
+      languages: (json['languages'] as List<dynamic>?)
+          ?.map((e) => e as String)
           .toList(),
-      numberOfEpisodes: json['numberOfEpisodes'] as int,
-      numberOfSeasons: json['numberOfSeasons'] as int,
-      originCountry: (json['originCountry'] as List<dynamic>)
-          .map((e) => e as String)
+      lastAirDate: json['last_air_date'] == null
+          ? null
+          : DateTime.parse(json['last_air_date'] as String),
+      lastEpisodeToAir: json['last_episode_to_air'] == null
+          ? null
+          : TEpisodeToAirModel.fromJson(
+              json['last_episode_to_air'] as Map<String, dynamic>),
+      name: json['name'] as String?,
+      nextEpisodeToAir: json['next_episode_to_air'] == null
+          ? null
+          : TEpisodeToAirModel.fromJson(
+              json['next_episode_to_air'] as Map<String, dynamic>),
+      networks: (json['networks'] as List<dynamic>?)
+          ?.map((e) => NetworkModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      originalLanguage: json['originalLanguage'] as String,
-      originalName: json['originalName'] as String,
-      overview: json['overview'] as String,
-      popularity: (json['popularity'] as num).toDouble(),
-      posterPath: json['posterPath'] as String,
-      productionCompanies: (json['productionCompanies'] as List<dynamic>)
-          .map((e) => NetworkModel.fromJson(e as Map<String, dynamic>))
+      numberOfEpisodes: json['number_of_episodes'] as int?,
+      numberOfSeasons: json['number_of_seasons'] as int?,
+      originCountry: (json['origin_country'] as List<dynamic>?)
+          ?.map((e) => e as String)
           .toList(),
-      productionCountries: (json['productionCountries'] as List<dynamic>)
-          .map(
+      originalLanguage: json['original_language'] as String?,
+      originalName: json['original_name'] as String?,
+      overview: json['overview'] as String?,
+      popularity: (json['popularity'] as num?)?.toDouble(),
+      posterPath: json['poster_path'] as String?,
+      productionCompanies: (json['production_companies'] as List<dynamic>?)
+          ?.map((e) => NetworkModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      productionCountries: (json['production_countries'] as List<dynamic>?)
+          ?.map(
               (e) => ProductionCountryModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      seasons: (json['seasons'] as List<dynamic>)
-          .map((e) => SeasonModel.fromJson(e as Map<String, dynamic>))
+      seasons: (json['seasons'] as List<dynamic>?)
+          ?.map((e) => SeasonModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      spokenLanguages: (json['spokenLanguages'] as List<dynamic>)
-          .map((e) => SpokenLanguageModel.fromJson(e as Map<String, dynamic>))
+      spokenLanguages: (json['spoken_languages'] as List<dynamic>?)
+          ?.map((e) => SpokenLanguageModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      status: json['status'] as String,
-      tagline: json['tagline'] as String,
-      type: json['type'] as String,
-      voteAverage: (json['voteAverage'] as num).toDouble(),
-      voteCount: json['voteCount'] as int,
+      status: json['status'] as String?,
+      tagline: json['tagline'] as String?,
+      type: json['type'] as String?,
+      voteAverage: (json['vote_average'] as num?)?.toDouble(),
+      voteCount: json['vote_count'] as int?,
+      message: json['message'] as String?,
     );
 
 Map<String, dynamic> _$SeriesOneApiRespModelToJson(
         SeriesOneApiRespModel instance) =>
     <String, dynamic>{
       'adult': instance.adult,
-      'backdropPath': instance.backdropPath,
-      'createdBy': instance.createdBy,
-      'episodeRunTime': instance.episodeRunTime,
-      'firstAirDate': instance.firstAirDate.toIso8601String(),
+      'backdrop_path': instance.backdropPath,
+      'created_by': instance.createdBy,
+      'episode_run_time': instance.episodeRunTime,
+      'first_air_date': instance.firstAirDate?.toIso8601String(),
       'genres': instance.genres,
       'homepage': instance.homepage,
       'id': instance.id,
-      'inProduction': instance.inProduction,
+      'in_production': instance.inProduction,
       'languages': instance.languages,
-      'lastAirDate': instance.lastAirDate.toIso8601String(),
-      'lastEpisodeToAir': instance.lastEpisodeToAir,
+      'last_air_date': instance.lastAirDate?.toIso8601String(),
+      'last_episode_to_air': instance.lastEpisodeToAir,
       'name': instance.name,
-      'nextEpisodeToAir': instance.nextEpisodeToAir,
+      'next_episode_to_air': instance.nextEpisodeToAir,
       'networks': instance.networks,
-      'numberOfEpisodes': instance.numberOfEpisodes,
-      'numberOfSeasons': instance.numberOfSeasons,
-      'originCountry': instance.originCountry,
-      'originalLanguage': instance.originalLanguage,
-      'originalName': instance.originalName,
+      'number_of_episodes': instance.numberOfEpisodes,
+      'number_of_seasons': instance.numberOfSeasons,
+      'origin_country': instance.originCountry,
+      'original_language': instance.originalLanguage,
+      'original_name': instance.originalName,
       'overview': instance.overview,
       'popularity': instance.popularity,
-      'posterPath': instance.posterPath,
-      'productionCompanies': instance.productionCompanies,
-      'productionCountries': instance.productionCountries,
+      'poster_path': instance.posterPath,
+      'production_companies': instance.productionCompanies,
+      'production_countries': instance.productionCountries,
       'seasons': instance.seasons,
-      'spokenLanguages': instance.spokenLanguages,
+      'spoken_languages': instance.spokenLanguages,
       'status': instance.status,
       'tagline': instance.tagline,
       'type': instance.type,
-      'voteAverage': instance.voteAverage,
-      'voteCount': instance.voteCount,
+      'vote_average': instance.voteAverage,
+      'vote_count': instance.voteCount,
+      'message': instance.message,
     };

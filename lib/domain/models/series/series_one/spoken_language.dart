@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'spoken_language.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class SpokenLanguageModel {
   final String englishName;
   final String iso6391;

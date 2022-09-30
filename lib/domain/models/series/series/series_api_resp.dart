@@ -1,21 +1,23 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'series_result_api_resp.dart';
+import 'serie.dart';
 
 part 'series_api_resp.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class SeriesApiRespModel {
-  final int page;
-  final List<SeriesResultApiRespModel> results;
-  final int totalPages;
-  final int totalResults;
+  final int? page;
+  final List<SerieModel>? results;
+  final int? totalPages;
+  final int? totalResults;
+  final String? message;
 
   SeriesApiRespModel({
-    required this.page,
-    required this.results,
-    required this.totalPages,
-    required this.totalResults,
+    this.page,
+    this.results,
+    this.totalPages,
+    this.totalResults,
+    this.message,
   });
 
   factory SeriesApiRespModel.fromJson(Map<String, dynamic> json) =>

@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 
-import '../preferences/session.dart';
+import 'preferences.dart';
 
 class SessionNotifier extends ChangeNotifier {
   final SessionPreferences _prefs = SessionPreferences();
 
+  // usuario
   String _token = '';
   String _user = '';
+
+  // series
+  String _popular = '';
+  String _favorites = '';
+  String _recents = '';
 
   SessionNotifier() {
     _hasSession();
@@ -15,6 +21,12 @@ class SessionNotifier extends ChangeNotifier {
   String get token => _token;
 
   String get user => _user;
+
+  String get popular => _popular;
+
+  String get favorites => _favorites;
+
+  String get recents => _recents;
 
   set token(String value) {
     _prefs.token = value;
@@ -28,10 +40,31 @@ class SessionNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  set popular(String value) {
+    _prefs.popular = value;
+    _popular = value;
+    notifyListeners();
+  }
+
+  set favorites(String value) {
+    _prefs.favorites = value;
+    _favorites = value;
+    notifyListeners();
+  }
+
+  set recents(String value) {
+    _prefs.recents = value;
+    _recents = value;
+    notifyListeners();
+  }
+
   // Mapea y actualiza el estado con la información guardada localmente
   Future<void> _hasSession() async {
     _token = _prefs.token;
     _user = _prefs.user;
+    _popular = _prefs.popular;
+    _favorites = _prefs.favorites;
+    _recents = _prefs.recents;
     notifyListeners();
   }
 }
