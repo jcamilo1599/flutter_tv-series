@@ -4,16 +4,16 @@ part 'network.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class NetworkModel {
-  final int id;
-  final String name;
-  final String logoPath;
-  final String originCountry;
+  final int? id;
+  final String? name;
+  final String? logoPath;
+  final String? originCountry;
 
   NetworkModel({
-    required this.id,
-    required this.name,
-    required this.logoPath,
-    required this.originCountry,
+    this.id,
+    this.name,
+    this.logoPath,
+    this.originCountry,
   });
 
   factory NetworkModel.fromJson(Map<String, dynamic> json) =>

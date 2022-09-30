@@ -4,32 +4,32 @@ part 't_episode_to_air.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class TEpisodeToAirModel {
-  final DateTime airDate;
-  final int episodeNumber;
-  final int id;
-  final String name;
-  final String overview;
-  final String productionCode;
-  final int runtime;
-  final int seasonNumber;
-  final int showId;
-  final String stillPath;
-  final double voteAverage;
-  final int voteCount;
+  final DateTime? airDate;
+  final int? episodeNumber;
+  final int? id;
+  final String? name;
+  final String? overview;
+  final String? productionCode;
+  final int? runtime;
+  final int? seasonNumber;
+  final int? showId;
+  final String? stillPath;
+  final double? voteAverage;
+  final int? voteCount;
 
   TEpisodeToAirModel({
-    required this.airDate,
-    required this.episodeNumber,
-    required this.id,
-    required this.name,
-    required this.overview,
-    required this.productionCode,
-    required this.runtime,
-    required this.seasonNumber,
-    required this.showId,
-    required this.stillPath,
-    required this.voteAverage,
-    required this.voteCount,
+    this.airDate,
+    this.episodeNumber,
+    this.id,
+    this.name,
+    this.overview,
+    this.productionCode,
+    this.runtime,
+    this.seasonNumber,
+    this.showId,
+    this.stillPath,
+    this.voteAverage,
+    this.voteCount,
   });
 
   factory TEpisodeToAirModel.fromJson(Map<String, dynamic> json) =>

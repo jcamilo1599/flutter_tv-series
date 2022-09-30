@@ -4,14 +4,14 @@ part 'spoken_language.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class SpokenLanguageModel {
-  final String englishName;
-  final String iso6391;
-  final String name;
+  final String? englishName;
+  final String? iso6391;
+  final String? name;
 
   SpokenLanguageModel({
-    required this.englishName,
-    required this.iso6391,
-    required this.name,
+    this.englishName,
+    this.iso6391,
+    this.name,
   });
 
   factory SpokenLanguageModel.fromJson(Map<String, dynamic> json) =>

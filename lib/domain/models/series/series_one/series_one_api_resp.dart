@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../series/serie.dart';
 import 'created_by.dart';
 import 'genre.dart';
 import 'network.dart';

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../config/provider.dart';
+import '../../../config/use_case_config.dart';
 import '../../../domain/models/series/series/serie.dart';
 import '../../../domain/models/series/series/series_api_resp.dart';
 import '../../../resources/environments/environments.dart';
@@ -31,6 +32,8 @@ class SeriePage extends ConsumerWidget {
         MediaQuery.of(context).padding.bottom -
         AppBar().preferredSize.height;
 
+    final UseCaseConfig _config = UseCaseConfig();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Popular'),
@@ -56,6 +59,28 @@ class SeriePage extends ConsumerWidget {
                     child: Image.network(
                       '${Environments.imagePath}${serie.posterPath}',
                       fit: BoxFit.cover,
+                      loadingBuilder: (
+                        BuildContext context,
+                        Widget child,
+                        ImageChunkEvent? loadingProgress,
+                      ) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+
+                        return Align(
+                          child: SizedBox(
+                            width: 60,
+                            height: 60,
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -71,14 +96,17 @@ class SeriePage extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 6),
-                MoleculesStars(stars: serie.voteAverage!),
+                MoleculesStars(stars: (serie.voteAverage ?? 0) / 2),
                 Text(
                   'IMDb: ${serie.voteAverage}',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const SizedBox(height: 6),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _config.favoritesUseCase.addFavorite(ref, serie: serie);
+                    _config.watchNowUseCase.watch(context, idSerie: serie.id!);
+                  },
                   child: Text(
                     'Watch Now',
                     style: Theme.of(context).textTheme.bodyText1?.copyWith(

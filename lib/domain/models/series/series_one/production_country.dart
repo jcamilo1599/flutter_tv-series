@@ -4,12 +4,12 @@ part 'production_country.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class ProductionCountryModel {
-  final String iso31661;
-  final String name;
+  final String? iso31661;
+  final String? name;
 
   ProductionCountryModel({
-    required this.iso31661,
-    required this.name,
+    this.iso31661,
+    this.name,
   });
 
   factory ProductionCountryModel.fromJson(Map<String, dynamic> json) =>

@@ -33,8 +33,26 @@ class SeriesUseCase {
     );
   }
 
-  Future<SeriesOneApiRespModel> getOne({required String idSerie}) async {
-    return _gateway.getOne(idSerie: idSerie);
+  Future<SeriesOneApiRespModel?> getOne(
+    BuildContext context, {
+    required String idSerie,
+  }) async {
+    final SeriesOneApiRespModel respApi =
+        await _gateway.getOne(idSerie: idSerie);
+
+    if (respApi.message == null) {
+      return respApi;
+    }
+
+    await showDialog<void>(
+      context: context,
+      builder: (BuildContext context) => AtomAlert(
+        title: 'Upps...',
+        description: respApi.message!,
+      ),
+    );
+
+    return null;
   }
 
   Future<SeriesSeasonApiRespModel> getSeason({
@@ -70,7 +88,7 @@ class SeriesUseCase {
     );
   }
 
-  void showSerie(
+  void serieDetail(
     BuildContext context, {
     required int index,
   }) {

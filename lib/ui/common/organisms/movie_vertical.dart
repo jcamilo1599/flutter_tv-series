@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../config/use_case_config.dart';
 import '../../../domain/models/series/series/serie.dart';
 import '../atoms/card.dart';
 import '../molecules/stars.dart';
@@ -9,10 +10,12 @@ import '../tokens/colors.dart';
 class OrgMovieV extends ConsumerWidget {
   final SerieModel serie;
 
-  const OrgMovieV({
+  OrgMovieV({
     required this.serie,
     Key? key,
   }) : super(key: key);
+
+  final UseCaseConfig _config = UseCaseConfig();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -56,7 +59,13 @@ class OrgMovieV extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _config.favoritesUseCase.addFavorite(ref, serie: serie);
+                      _config.watchNowUseCase.watch(
+                        context,
+                        idSerie: serie.id!,
+                      );
+                    },
                     child: Text(
                       'Watch Now',
                       style: Theme.of(context).textTheme.bodyText1?.copyWith(

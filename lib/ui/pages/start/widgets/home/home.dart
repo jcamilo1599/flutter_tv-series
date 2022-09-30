@@ -87,7 +87,7 @@ class HomePage extends ConsumerWidget {
             children: List<OrgMovieH>.generate(results.length, (int index) {
               return OrgMovieH(
                 serie: results[index],
-                onTap: () => _config.seriesUseCase.showSerie(
+                onTap: () => _config.seriesUseCase.serieDetail(
                   context,
                   index: index,
                 ),

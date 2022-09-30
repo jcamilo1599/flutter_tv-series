@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../config/provider.dart';
 import '../../../infrastructure/handlers/handlers.dart';
-import '../../common/tokens/colors.dart';
 import 'widgets/home/home.dart';
 
 // Determina si los botones del cuerpo se mostraran

@@ -4,22 +4,22 @@ part 'season.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class SeasonModel {
-  final DateTime airDate;
-  final int episodeCount;
-  final int id;
-  final String name;
-  final String overview;
-  final String posterPath;
-  final int seasonNumber;
+  final DateTime? airDate;
+  final int? episodeCount;
+  final int? id;
+  final String? name;
+  final String? overview;
+  final String? posterPath;
+  final int? seasonNumber;
 
   SeasonModel({
-    required this.airDate,
-    required this.episodeCount,
-    required this.id,
-    required this.name,
-    required this.overview,
-    required this.posterPath,
-    required this.seasonNumber,
+    this.airDate,
+    this.episodeCount,
+    this.id,
+    this.name,
+    this.overview,
+    this.posterPath,
+    this.seasonNumber,
   });
 
   factory SeasonModel.fromJson(Map<String, dynamic> json) =>
