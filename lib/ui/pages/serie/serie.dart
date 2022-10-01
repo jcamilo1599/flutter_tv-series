@@ -7,6 +7,7 @@ import '../../../config/use_case_config.dart';
 import '../../../domain/models/series/series/serie.dart';
 import '../../../domain/models/series/series/series_api_resp.dart';
 import '../../../resources/environments/environments.dart';
+import '../../common/atoms/no_image.dart';
 import '../../common/molecules/stars.dart';
 import '../../common/tokens/colors.dart';
 
@@ -102,6 +103,7 @@ class SeriePage extends ConsumerWidget {
     return Image.network(
       '${Environments.imagePath}$posterPath',
       fit: BoxFit.cover,
+      errorBuilder: (_, __, ___) => const AtomsNoImage(),
       loadingBuilder: (
         BuildContext context,
         Widget child,

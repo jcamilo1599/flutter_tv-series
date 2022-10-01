@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../resources/environments/environments.dart';
+import 'no_image.dart';
 
 class AtomCard extends ConsumerWidget {
   final String poster;
@@ -21,6 +22,7 @@ class AtomCard extends ConsumerWidget {
         child: Image.network(
           '${Environments.imagePath}$poster',
           fit: BoxFit.cover,
+          errorBuilder: (_, __, ___) => const AtomsNoImage(),
           loadingBuilder: (
             BuildContext context,
             Widget child,

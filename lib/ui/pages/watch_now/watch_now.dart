@@ -4,7 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../config/use_case_config.dart';
 import '../../../domain/models/series/series/serie.dart';
 import '../../../domain/models/series/series_season/series_season_api_resp.dart';
-import '../../../resources/environments/environments.dart';
+import '../../common/atoms/divider_vertical.dart';
+import '../../common/atoms/image.dart';
+import '../../common/atoms/no_image.dart';
 
 class WatchNowPage extends ConsumerStatefulWidget {
   final int idSerie;
@@ -143,46 +145,61 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
         ref.watch(seasonProvider.state).state != null;
 
     if (showBody) {
-      response = Column(
-        children: <Widget>[
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: SizedBox(
-              width: double.infinity,
-              height: 220,
-              child: Image.network(
-                '${Environments.imagePath}${ref.watch(serieProvider.state).state!.posterPath}',
-                fit: BoxFit.cover,
-                loadingBuilder: (
-                  BuildContext context,
-                  Widget child,
-                  ImageChunkEvent? loadingProgress,
-                ) {
-                  if (loadingProgress == null) {
-                    return child;
-                  }
+      final SerieModel serie = ref.watch(serieProvider.state).state!;
 
-                  return Align(
-                    child: SizedBox(
-                      width: 60,
-                      height: 60,
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!
-                            : null,
-                      ),
-                    ),
-                  );
-                },
-              ),
+      response = Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          _buildImage(serie.seasons![0].posterPath),
+          const SizedBox(height: 50),
+          Text(
+            serie.name!,
+            style: Theme.of(context).textTheme.headline2,
+            overflow: TextOverflow.fade,
+            maxLines: 1,
+            softWrap: false,
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 16,
+            child: Row(
+              children: <Widget>[
+                Text(
+                  'IMDb: ${serie.voteAverage!.toStringAsFixed(1)}',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const AtomsDividerV(),
+                Text(
+                  serie.lastAirDate!.year.toString(),
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                const AtomsDividerV(),
+                Text(
+                  '${serie.seasons!.length} Seasons',
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ],
             ),
-          )
+          ),
+          const Divider(height: 60),
         ],
       );
     }
 
     return response;
+  }
+
+  Widget _buildImage(String? poster) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: SizedBox(
+        width: double.infinity,
+        height: 220,
+        child: poster != null
+            ? AtomsImageNetwork(path: poster)
+            : const AtomsNoImage(),
+      ),
+    );
   }
 
   Future<void> _getSerie() async {
