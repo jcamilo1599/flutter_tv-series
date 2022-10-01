@@ -1,6 +1,7 @@
 import '../domain/use_cases/favorites/favorites.dart';
 import '../domain/use_cases/login/login.dart';
 import '../domain/use_cases/series/series.dart';
+import '../domain/use_cases/start/start.dart';
 import '../domain/use_cases/watch_now/watch_now.dart';
 import '../infrastructure/driven_adapter/series.dart';
 
@@ -18,6 +19,9 @@ class UseCaseConfig {
   // Watch now
   late WatchNowUseCase watchNowUseCase;
 
+  // Start
+  late StartUseCase startUseCase;
+
   UseCaseConfig() {
     // Login
     loginUseCase = LoginUseCase();
@@ -31,5 +35,8 @@ class UseCaseConfig {
 
     // Watch now
     watchNowUseCase = WatchNowUseCase();
+
+    // Start
+    startUseCase = StartUseCase();
   }
 }

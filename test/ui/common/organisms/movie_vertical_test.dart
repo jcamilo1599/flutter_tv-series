@@ -10,8 +10,8 @@ void main() {
   testWidgets('Organisms - Movie Vertical', (WidgetTester tester) async {
     final Widget widget = BaseTest(home: OrgMovieV(serie: DataTest.serie));
     await mockNetworkImagesFor(() => tester.pumpWidget(widget));
-    await tester.tap(find.byType(ElevatedButton));
     await tester.tap(find.byType(IconButton));
+    await tester.tap(find.byType(ElevatedButton));
     expect(find.text(DataTest.serie.name ?? ''), findsOneWidget);
     expect(find.byIcon(Icons.favorite_border), findsOneWidget);
   });

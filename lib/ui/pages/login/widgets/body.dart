@@ -10,7 +10,8 @@ class LoginBody extends ConsumerWidget {
   final UseCaseConfig _config = UseCaseConfig();
 
   // Determina si los botones del cuerpo se mostraran
-  static final StateProvider<bool> buttonsProvider = StateProvider<bool>((_) => true);
+  static final StateProvider<bool> buttonsProvider =
+      StateProvider<bool>((_) => true);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -41,13 +42,7 @@ class LoginBody extends ConsumerWidget {
         _buildButton(
           ref,
           child: ElevatedButton(
-            onPressed: () {
-              _config.loginUseCase.sheetLogin(context, onDismiss: () {
-                ref.read(buttonsProvider.state).state = true;
-              });
-
-              ref.read(buttonsProvider.state).state = false;
-            },
+            onPressed: () => _onLogIn(context, ref),
             style:
                 ElevatedButton.styleFrom(backgroundColor: TokensColors.white),
             child: Text(
@@ -85,5 +80,13 @@ class LoginBody extends ConsumerWidget {
       duration: const Duration(milliseconds: 200),
       child: child,
     );
+  }
+
+  void _onLogIn(BuildContext context, WidgetRef ref) {
+    _config.loginUseCase.sheetLogin(context, onDismiss: () {
+      ref.read(buttonsProvider.state).state = true;
+    });
+
+    ref.read(buttonsProvider.state).state = false;
   }
 }

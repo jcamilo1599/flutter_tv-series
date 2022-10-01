@@ -105,10 +105,7 @@ class HomePage extends ConsumerWidget {
               children: const <Widget>[
                 Text('See All'),
                 SizedBox(width: 10),
-                Icon(
-                  Icons.arrow_forward_ios,
-                  size: 14,
-                )
+                Icon(Icons.arrow_forward_ios, size: 14)
               ],
             ),
           ),

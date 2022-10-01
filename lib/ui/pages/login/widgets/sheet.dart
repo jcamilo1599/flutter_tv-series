@@ -14,7 +14,8 @@ class LoginSheet extends ConsumerWidget {
   }) : super(key: key);
 
   // Determina si mostrara o no la animación de cargando
-  static final StateProvider<bool> loadingProvider = StateProvider<bool>((_) => false);
+  static final StateProvider<bool> loadingProvider =
+      StateProvider<bool>((_) => false);
 
   final UseCaseConfig _config = UseCaseConfig();
 
@@ -71,20 +72,7 @@ class LoginSheet extends ConsumerWidget {
             decoration: const InputDecoration(hintText: 'Password'),
           ),
           const Spacer(),
-          _buildButton(
-            context,
-            show: showLoading,
-            onPressed: () {
-              ref.read(loadingProvider.state).state = true;
-
-              final LoginModel data = LoginModel(
-                name: controllerName.text,
-                pass: controllerPass.text,
-              );
-
-              _config.loginUseCase.login(ref, context, loginData: data);
-            },
-          ),
+          _buildButton(context, ref, show: showLoading),
           const SizedBox(height: 60),
         ],
       ),
@@ -92,12 +80,12 @@ class LoginSheet extends ConsumerWidget {
   }
 
   Widget _buildButton(
-    BuildContext context, {
+    BuildContext context,
+    WidgetRef ref, {
     required bool show,
-    required VoidCallback? onPressed,
   }) {
     return ElevatedButton(
-      onPressed: !show ? onPressed : null,
+      onPressed: !show ? () => _onLogIn(context, ref) : null,
       style: ElevatedButton.styleFrom(
         backgroundColor: TokensColors.white,
         padding: const EdgeInsets.symmetric(horizontal: 50),
@@ -131,5 +119,16 @@ class LoginSheet extends ConsumerWidget {
     }
 
     return response;
+  }
+
+  void _onLogIn(BuildContext context, WidgetRef ref) {
+    ref.read(loadingProvider.state).state = true;
+
+    final LoginModel data = LoginModel(
+      name: controllerName.text,
+      pass: controllerPass.text,
+    );
+
+    _config.loginUseCase.login(ref, context, loginData: data);
   }
 }

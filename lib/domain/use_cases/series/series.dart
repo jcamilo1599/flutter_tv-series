@@ -97,4 +97,8 @@ class SeriesUseCase {
       MaterialPageRoute<void>(builder: (_) => SeriePage(index: index)),
     );
   }
+
+  SeriesApiRespModel serieToJson(String data) {
+    return SeriesApiRespModel.fromJson(json.decode(data));
+  }
 }

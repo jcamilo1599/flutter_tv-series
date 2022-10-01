@@ -12,7 +12,7 @@ class Handlers {
 
   // Rutas para usuarios con sesión activa
   static Map<String, WidgetBuilder> _activeSession() => <String, WidgetBuilder>{
-        StartPage.routeName: (BuildContext context) => const StartPage(),
+        StartPage.routeName: (BuildContext context) => StartPage(),
       };
 
   // Obtiene las rutas de la aplicación

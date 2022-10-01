@@ -55,7 +55,8 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
   Widget _buildError() {
     Widget response = const SizedBox.shrink();
 
-    if (!ref.watch(loadingProvider.state).state && ref.watch(serieProvider.state).state == null) {
+    if (!ref.watch(loadingProvider.state).state &&
+        ref.watch(serieProvider.state).state == null) {
       response = Container(
         padding: const EdgeInsets.all(20),
         alignment: Alignment.center,
