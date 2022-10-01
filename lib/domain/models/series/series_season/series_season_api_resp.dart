@@ -6,7 +6,7 @@ part 'series_season_api_resp.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.snake)
 class SeriesSeasonApiRespModel {
-  final String? id;
+  final int? id;
   final DateTime? airDate;
   final List<SeriesEpisodeApiRespModel>? episodes;
   final String? name;

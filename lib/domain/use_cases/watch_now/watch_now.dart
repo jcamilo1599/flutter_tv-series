@@ -13,5 +13,7 @@ class WatchNowUseCase {
       context,
       MaterialPageRoute<void>(builder: (_) => WatchNowPage(idSerie: idSerie)),
     );
+
+    // TODO: cuando se va a ver una serie, se debe añadir a "recientes"
   }
 }

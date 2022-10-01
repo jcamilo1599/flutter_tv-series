@@ -7,9 +7,9 @@ import '../../../config/provider.dart';
 import '../../../ui/common/atoms/alert.dart';
 import '../../../ui/pages/serie/serie.dart';
 import '../../models/series/gateway/series_api_gateway.dart';
+import '../../models/series/series/serie.dart';
 import '../../models/series/series/series_api_resp.dart';
 import '../../models/series/series_episode/series_episode_api_resp.dart';
-import '../../models/series/series_one/series_one_api_resp.dart';
 import '../../models/series/series_season/series_season_api_resp.dart';
 
 class SeriesUseCase {
@@ -33,11 +33,11 @@ class SeriesUseCase {
     );
   }
 
-  Future<SeriesOneApiRespModel?> getOne(
+  Future<SerieModel?> getOne(
     BuildContext context, {
     required String idSerie,
   }) async {
-    final SeriesOneApiRespModel respApi =
+    final SerieModel respApi =
         await _gateway.getOne(idSerie: idSerie);
 
     if (respApi.message == null) {
@@ -55,11 +55,27 @@ class SeriesUseCase {
     return null;
   }
 
-  Future<SeriesSeasonApiRespModel> getSeason({
+  Future<SeriesSeasonApiRespModel?> getSeason(
+    BuildContext context, {
     required String idSerie,
     required String idSeason,
   }) async {
-    return _gateway.getSeason(idSerie: idSerie, idSeason: idSeason);
+    final SeriesSeasonApiRespModel respApi =
+        await _gateway.getSeason(idSerie: idSerie, idSeason: idSeason);
+
+    if (respApi.message == null) {
+      return respApi;
+    }
+
+    await showDialog<void>(
+      context: context,
+      builder: (BuildContext context) => AtomAlert(
+        title: 'Upps...',
+        description: respApi.message!,
+      ),
+    );
+
+    return null;
   }
 
   Future<SeriesEpisodeApiRespModel> getEpisode({

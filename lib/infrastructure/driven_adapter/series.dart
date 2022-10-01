@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../../domain/models/series/gateway/series_api_gateway.dart';
+import '../../domain/models/series/series/serie.dart';
 import '../../domain/models/series/series/series_api_resp.dart';
 import '../../domain/models/series/series_episode/series_episode_api_resp.dart';
-import '../../domain/models/series/series_one/series_one_api_resp.dart';
 import '../../domain/models/series/series_season/series_season_api_resp.dart';
 import '../../resources/environments/environments.dart';
 import '../helpers/api_error.dart';
@@ -54,19 +54,19 @@ class SeriesApi extends SeriesApiGateway {
   }
 
   @override
-  Future<SeriesOneApiRespModel> getOne({required String idSerie}) async {
-    SeriesOneApiRespModel response;
+  Future<SerieModel> getOne({required String idSerie}) async {
+    SerieModel response;
 
     try {
       final Uri url = Uri.parse(
           '${Environments.movieDB}/tv/$idSerie?api_key=${Environments.apiKey}&language=es-CO');
       final http.Response httpResponse = await http.get(url);
 
-      response = SeriesOneApiRespModel.fromJson(
+      response = SerieModel.fromJson(
         json.decode(utf8.decode(httpResponse.bodyBytes)),
       );
     } on Exception catch (error) {
-      response = SeriesOneApiRespModel(
+      response = SerieModel(
         message: apiError(error),
       );
     }

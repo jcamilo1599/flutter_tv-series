@@ -8,5 +8,7 @@ class FavoritesUseCase {
   void addFavorite(
     WidgetRef ref, {
     required SerieModel serie,
-  }) {}
+  }) {
+    // TODO: añadir a favorita la serie
+  }
 }
