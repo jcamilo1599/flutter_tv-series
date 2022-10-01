@@ -60,11 +60,10 @@ class OrgMovieV extends ConsumerWidget {
                 children: <Widget>[
                   ElevatedButton(
                     onPressed: () {
-                      _config.favoritesUseCase.addFavorite(ref, serie: serie);
-                      _config.watchNowUseCase.watch(
-                        context,
-                        idSerie: serie.id!,
-                      );
+                      _config.watchNowUseCase
+                          .watch(context, idSerie: serie.id!);
+
+                      _config.recentsUseCase.addRecent(ref, serie: serie);
                     },
                     child: Text(
                       'Watch Now',
@@ -74,7 +73,9 @@ class OrgMovieV extends ConsumerWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    // TODO: validar si ya esta en favoritos
+                    onPressed: () =>
+                        _config.favoritesUseCase.addFavorite(ref, serie: serie),
                     icon: const Icon(Icons.favorite_border),
                   )
                 ],

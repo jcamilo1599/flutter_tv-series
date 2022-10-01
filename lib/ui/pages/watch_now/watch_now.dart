@@ -124,6 +124,7 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
         ref.watch(seasonProvider.state).state != null;
 
     if (showAction) {
+      // TODO: validar si ya esta en favoritos
       response = IconButton(
         onPressed: () {
           _config.favoritesUseCase.addFavorite(

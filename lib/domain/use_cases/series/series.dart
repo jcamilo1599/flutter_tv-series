@@ -20,7 +20,7 @@ class SeriesUseCase {
   Future<SeriesApiRespModel> getSeries(WidgetRef ref) async {
     final SeriesApiRespModel series = await _gateway.getSeries();
 
-    // Guarda en el dispositivo las peliculas populares
+    // Guarda en el dispositivo las series populares
     ref.read(sessionProvider.notifier).popular = json.encode(series);
 
     return series;
@@ -37,8 +37,7 @@ class SeriesUseCase {
     BuildContext context, {
     required String idSerie,
   }) async {
-    final SerieModel respApi =
-        await _gateway.getOne(idSerie: idSerie);
+    final SerieModel respApi = await _gateway.getOne(idSerie: idSerie);
 
     if (respApi.message == null) {
       return respApi;
@@ -114,7 +113,11 @@ class SeriesUseCase {
     );
   }
 
-  SeriesApiRespModel serieToJson(String data) {
-    return SeriesApiRespModel.fromJson(json.decode(data));
+  List<SerieModel> getPopular(WidgetRef ref) {
+    final String data = ref.read(sessionProvider.notifier).popular;
+    final SeriesApiRespModel apiData =
+        SeriesApiRespModel.fromJson(json.decode(data));
+
+    return apiData.results!;
   }
 }

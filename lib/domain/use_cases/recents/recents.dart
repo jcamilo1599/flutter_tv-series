@@ -6,14 +6,14 @@ import '../../../config/provider.dart';
 import '../../mappers/series/series.dart';
 import '../../models/series/series/serie.dart';
 
-class FavoritesUseCase {
-  FavoritesUseCase();
+class RecentsUseCase {
+  RecentsUseCase();
 
-  void addFavorite(
+  void addRecent(
     WidgetRef ref, {
     required SerieModel serie,
   }) {
-    final String data = ref.read(sessionProvider.notifier).favorites;
+    final String data = ref.read(sessionProvider.notifier).recents;
     final List<SerieModel> series = SeriesMapper.list(data);
 
     // Valida si la serie se encuentra como favorita
@@ -29,11 +29,11 @@ class FavoritesUseCase {
     }
 
     // Guarda en el dispositivo las series favoritas
-    ref.read(sessionProvider.notifier).favorites = json.encode(series);
+    ref.read(sessionProvider.notifier).recents = json.encode(series);
   }
 
-  List<SerieModel> getFavorites(WidgetRef ref) {
-    final String data = ref.read(sessionProvider.notifier).favorites;
+  List<SerieModel> getRecents(WidgetRef ref) {
+    final String data = ref.read(sessionProvider.notifier).recents;
     final List<SerieModel> series = SeriesMapper.list(data);
     return series;
   }

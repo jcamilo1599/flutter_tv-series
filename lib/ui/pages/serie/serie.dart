@@ -2,10 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../config/provider.dart';
 import '../../../config/use_case_config.dart';
 import '../../../domain/models/series/series/serie.dart';
-import '../../../domain/models/series/series/series_api_resp.dart';
 import '../../../resources/environments/environments.dart';
 import '../../common/atoms/no_image.dart';
 import '../../common/molecules/stars.dart';
@@ -39,8 +37,7 @@ class SeriePage extends ConsumerWidget {
         MediaQuery.of(context).padding.bottom -
         AppBar().preferredSize.height;
 
-    final SeriesApiRespModel series =
-        _config.seriesUseCase.serieToJson(ref.watch(sessionProvider).popular);
+    final List<SerieModel> series = _config.seriesUseCase.getPopular(ref);
 
     return SafeArea(
       child: CarouselSlider(
@@ -51,7 +48,7 @@ class SeriePage extends ConsumerWidget {
           enlargeStrategy: CenterPageEnlargeStrategy.height,
           height: height,
         ),
-        items: series.results!.map((SerieModel serie) {
+        items: series.map((SerieModel serie) {
           return Column(
             children: <Widget>[
               Container(
@@ -82,8 +79,8 @@ class SeriePage extends ConsumerWidget {
               const SizedBox(height: 6),
               ElevatedButton(
                 onPressed: () {
-                  _config.favoritesUseCase.addFavorite(ref, serie: serie);
                   _config.watchNowUseCase.watch(context, idSerie: serie.id!);
+                  _config.recentsUseCase.addRecent(ref, serie: serie);
                 },
                 child: Text(
                   'Watch Now',

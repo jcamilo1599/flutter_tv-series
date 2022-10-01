@@ -1,5 +1,6 @@
 import '../domain/use_cases/favorites/favorites.dart';
 import '../domain/use_cases/login/login.dart';
+import '../domain/use_cases/recents/recents.dart';
 import '../domain/use_cases/series/series.dart';
 import '../domain/use_cases/start/start.dart';
 import '../domain/use_cases/watch_now/watch_now.dart';
@@ -22,6 +23,9 @@ class UseCaseConfig {
   // Start
   late StartUseCase startUseCase;
 
+  // Recents
+  late RecentsUseCase recentsUseCase;
+
   UseCaseConfig() {
     // Login
     loginUseCase = LoginUseCase();
@@ -38,5 +42,8 @@ class UseCaseConfig {
 
     // Start
     startUseCase = StartUseCase();
+
+    // Recents
+    recentsUseCase = RecentsUseCase();
   }
 }

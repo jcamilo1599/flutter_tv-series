@@ -28,7 +28,7 @@ class SessionPreferences {
 
   String get popular => _prefs?.getString('popular') ?? '';
 
-  String get favorites => _prefs?.getString('favorites') ?? '';
+  String get favorites => _prefs?.getString('favorites') ?? '[]';
 
-  String get recents => _prefs?.getString('recents') ?? '';
+  String get recents => _prefs?.getString('recents') ?? '[]';
 }

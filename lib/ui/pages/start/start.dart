@@ -3,7 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../config/use_case_config.dart';
 import '../../../domain/models/start.dart';
+import 'widgets/favorites/favorites.dart';
 import 'widgets/home/home.dart';
+import 'widgets/recents/recents.dart';
 
 class StartPage extends ConsumerWidget {
   static const String routeName = '/';
@@ -64,12 +66,12 @@ class StartPage extends ConsumerWidget {
     PageModel(
       title: 'Favorites',
       icon: Icons.favorite_border,
-      body: const SizedBox.shrink(),
+      body: FavoritesPage(),
     ),
     PageModel(
       title: 'Recent',
       icon: Icons.rotate_left,
-      body: const SizedBox.shrink(),
+      body: RecentsPage(),
     ),
     PageModel(
       title: 'Search',
