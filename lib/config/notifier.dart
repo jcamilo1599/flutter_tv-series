@@ -12,7 +12,6 @@ class SessionNotifier extends ChangeNotifier {
   // series
   String _popular = '';
   String _favorites = '';
-  String _recents = '';
 
   SessionNotifier() {
     _hasSession();
@@ -25,8 +24,6 @@ class SessionNotifier extends ChangeNotifier {
   String get popular => _popular;
 
   String get favorites => _favorites;
-
-  String get recents => _recents;
 
   set token(String value) {
     _prefs.token = value;
@@ -52,19 +49,12 @@ class SessionNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  set recents(String value) {
-    _prefs.recents = value;
-    _recents = value;
-    notifyListeners();
-  }
-
   // Mapea y actualiza el estado con la información guardada localmente
   Future<void> _hasSession() async {
     _token = _prefs.token;
     _user = _prefs.user;
     _popular = _prefs.popular;
     _favorites = _prefs.favorites;
-    _recents = _prefs.recents;
     notifyListeners();
   }
 }

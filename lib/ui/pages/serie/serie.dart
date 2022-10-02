@@ -78,10 +78,7 @@ class SeriePage extends ConsumerWidget {
               ),
               const SizedBox(height: 6),
               ElevatedButton(
-                onPressed: () {
-                  _config.watchNowUseCase.watch(context, idSerie: serie.id!);
-                  _config.recentsUseCase.addRecent(ref, serie: serie);
-                },
+                onPressed: () => _config.watchNowUseCase.watch(context, idSerie: serie.id!),
                 child: Text(
                   'Watch Now',
                   style: Theme.of(context).textTheme.bodyText1?.copyWith(

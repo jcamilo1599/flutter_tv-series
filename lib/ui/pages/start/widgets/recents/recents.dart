@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../../config/use_case_config.dart';
 import '../../../../../domain/models/series/series/serie.dart';
+import '../../../../../domain/models/series/series/series_api_resp.dart';
 import '../../../../common/atoms/image_network.dart';
 
 class RecentsPage extends ConsumerWidget {
@@ -12,8 +13,31 @@ class RecentsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<SerieModel> series = _config.recentsUseCase.getRecents(ref);
+    return FutureBuilder<SeriesApiRespModel>(
+      future: _config.seriesUseCase.getAiringToday(),
+      builder: (_, AsyncSnapshot<SeriesApiRespModel> snapshot) {
+        // Determina si hay datos y la respuesta fue correcta
+        final bool hasData = snapshot.hasData &&
+            snapshot.connectionState == ConnectionState.done;
 
+        if (hasData) {
+          return _buildSeries(
+            context,
+            series: snapshot.data!.results!,
+          );
+        } else if (snapshot.hasError) {
+          return _buildSeriesError(context);
+        } else {
+          return _buildLoading();
+        }
+      },
+    );
+  }
+
+  Widget _buildSeries(
+    BuildContext context, {
+    required List<SerieModel> series,
+  }) {
     return ListView(
       padding: const EdgeInsets.symmetric(horizontal: 40),
       children: List<Widget>.generate(series.length, (int index) {
@@ -42,7 +66,8 @@ class RecentsPage extends ConsumerWidget {
             Align(
               alignment: Alignment.bottomRight,
               child: TextButton(
-                onPressed: () => _config.watchNowUseCase.watch(context, idSerie: series[index].id!),
+                onPressed: () => _config.watchNowUseCase
+                    .watch(context, idSerie: series[index].id!),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: const <Widget>[
@@ -57,6 +82,29 @@ class RecentsPage extends ConsumerWidget {
           ],
         );
       }),
+    );
+  }
+
+  Widget _buildSeriesError(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      alignment: Alignment.center,
+      child: Text(
+        'Se produjo un error, no se pudieron cargar las series',
+        style: Theme.of(context).textTheme.bodyText1,
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  Widget _buildLoading() {
+    return Align(
+      child: Container(
+        margin: const EdgeInsets.all(40),
+        width: 40,
+        height: 40,
+        child: const CircularProgressIndicator(),
+      ),
     );
   }
 }

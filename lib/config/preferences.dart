@@ -20,8 +20,6 @@ class SessionPreferences {
 
   set favorites(String value) => _prefs?.setString('favorites', value);
 
-  set recents(String value) => _prefs?.setString('recents', value);
-
   String get token => _prefs?.getString('token') ?? '';
 
   String get user => _prefs?.getString('user') ?? '';
@@ -29,6 +27,4 @@ class SessionPreferences {
   String get popular => _prefs?.getString('popular') ?? '';
 
   String get favorites => _prefs?.getString('favorites') ?? '[]';
-
-  String get recents => _prefs?.getString('recents') ?? '[]';
 }

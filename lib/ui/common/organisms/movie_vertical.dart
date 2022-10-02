@@ -75,13 +75,10 @@ class _OrgMovieVState extends ConsumerState<OrgMovieV> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   ElevatedButton(
-                    onPressed: () {
-                      _config.watchNowUseCase
-                          .watch(context, idSerie: widget.serie.id!);
-
-                      _config.recentsUseCase
-                          .addRecent(ref, serie: widget.serie);
-                    },
+                    onPressed: () => _config.watchNowUseCase.watch(
+                      context,
+                      idSerie: widget.serie.id!,
+                    ),
                     child: Text(
                       'Watch Now',
                       style: Theme.of(context).textTheme.bodyText1?.copyWith(
