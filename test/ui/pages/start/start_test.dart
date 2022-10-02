@@ -21,7 +21,7 @@ void main() {
   ) {
     return BaseTest(home: StatefulBuilder(
       builder: (BuildContext context, StateSetter setState) {
-        return StartPage();
+        return const StartPage();
       },
     ));
   });
