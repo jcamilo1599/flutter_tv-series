@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../config/use_case_config.dart';
 import '../../../domain/models/series/series/serie.dart';
+import '../../../domain/models/series/series_episode/series_episode_api_resp.dart';
 import '../../../domain/models/series/series_season/series_season_api_resp.dart';
 import '../../common/atoms/divider_vertical.dart';
 import '../../common/atoms/image_network.dart';
@@ -29,6 +30,10 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
   late final StateProvider<SeriesSeasonApiRespModel?> seasonProvider;
   late final StateProvider<IconData> iconProvider;
 
+  final PageController _controller = PageController();
+  static const Duration _transitionDuration = Duration(milliseconds: 400);
+  static const Cubic _transitionCurve = Curves.ease;
+
   @override
   void initState() {
     super.initState();
@@ -48,6 +53,10 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
 
   @override
   Widget build(BuildContext context) {
+    final bool showBody = !ref.watch(loadingProvider.state).state &&
+        ref.watch(serieProvider.state).state != null &&
+        ref.watch(seasonProvider.state).state != null;
+
     return Scaffold(
       appBar: AppBar(
         title: _buildTitle(),
@@ -55,14 +64,11 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
         actions: <Widget>[_buildAction()],
       ),
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          children: <Widget>[
-            _buildError(),
-            _buildLoading(),
-            _buildBody(),
-          ],
-        ),
+        child: (ref.watch(loadingProvider.state).state)
+            ? _buildLoading()
+            : showBody
+                ? _buildBody()
+                : _buildError(),
       ),
     );
   }
@@ -149,54 +155,105 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
   }
 
   Widget _buildBody() {
-    Widget response = const SizedBox.shrink();
-    final bool showBody = !ref.watch(loadingProvider.state).state &&
-        ref.watch(serieProvider.state).state != null &&
-        ref.watch(seasonProvider.state).state != null;
+    final SeriesSeasonApiRespModel season =
+        ref.watch(seasonProvider.state).state!;
+    final List<SeriesEpisodeApiRespModel> episodes = season.episodes!;
 
-    if (showBody) {
-      final SerieModel serie = ref.watch(serieProvider.state).state!;
-
-      response = Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          _buildImage(serie.seasons![0].posterPath),
-          const SizedBox(height: 50),
-          Text(
-            serie.name!,
-            style: Theme.of(context).textTheme.headline2,
-            overflow: TextOverflow.fade,
-            maxLines: 1,
-            softWrap: false,
-          ),
-          const SizedBox(height: 10),
-          SizedBox(
-            height: 16,
-            child: Row(
+    return PageView(
+      controller: _controller,
+      children: List<Widget>.generate(episodes.length, (int index) {
+        return ListView(
+          padding: const EdgeInsets.fromLTRB(16, 10, 16, 30),
+          children: <Widget>[
+            Row(
               children: <Widget>[
                 Text(
-                  'IMDb: ${serie.voteAverage!.toStringAsFixed(1)}',
-                  style: Theme.of(context).textTheme.bodySmall,
+                  '${index + 1} Episode',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1!
+                      .copyWith(fontWeight: FontWeight.w600),
+                  overflow: TextOverflow.fade,
+                  maxLines: 1,
+                  softWrap: false,
                 ),
-                const AtomsDividerV(),
-                Text(
-                  serie.lastAirDate!.year.toString(),
-                  style: Theme.of(context).textTheme.bodySmall,
+                const Spacer(),
+                TextButton(
+                  onPressed: index > 0
+                      ? () {
+                          _controller.previousPage(
+                            duration: _transitionDuration,
+                            curve: _transitionCurve,
+                          );
+                        }
+                      : null,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const <Widget>[
+                      Icon(Icons.arrow_back_ios, size: 14),
+                      SizedBox(width: 2),
+                      Text('Previous'),
+                    ],
+                  ),
                 ),
-                const AtomsDividerV(),
-                Text(
-                  '${serie.numberOfSeasons} Seasons',
-                  style: Theme.of(context).textTheme.bodySmall,
+                TextButton(
+                  onPressed: (episodes.length - 1) > index
+                      ? () {
+                          _controller.nextPage(
+                            duration: _transitionDuration,
+                            curve: _transitionCurve,
+                          );
+                        }
+                      : null,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const <Widget>[
+                      Text('Next'),
+                      SizedBox(width: 2),
+                      Icon(Icons.arrow_forward_ios, size: 14),
+                    ],
+                  ),
                 ),
               ],
             ),
-          ),
-          const Divider(height: 60),
-        ],
-      );
-    }
-
-    return response;
+            const SizedBox(height: 20),
+            _buildImage(episodes[index].stillPath),
+            const SizedBox(height: 50),
+            Text(
+              episodes[index].name ?? '',
+              style: Theme.of(context).textTheme.headline2,
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 16,
+              child: Row(
+                children: <Widget>[
+                  Text(
+                    'IMDb: ${episodes[index].voteAverage!.toStringAsFixed(1)}',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  const AtomsDividerV(),
+                  Text(
+                    episodes[index].airDate!.year.toString(),
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                  const AtomsDividerV(),
+                  Text(
+                    'Season ${episodes[index].seasonNumber}',
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 60),
+            Text(
+              episodes[index].overview ?? '',
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+          ],
+        );
+      }),
+    );
   }
 
   Widget _buildImage(String? poster) {
