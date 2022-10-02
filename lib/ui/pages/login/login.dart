@@ -14,7 +14,7 @@ class LoginPage extends ConsumerWidget {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-          ..._background(),
+          ..._buildBackground(),
           SafeArea(
             child: Center(
               child: ConstrainedBox(
@@ -28,7 +28,7 @@ class LoginPage extends ConsumerWidget {
     );
   }
 
-  List<Widget> _background() {
+  List<Widget> _buildBackground() {
     return <Widget>[
       // Imagen
       Container(
@@ -37,7 +37,7 @@ class LoginPage extends ConsumerWidget {
             image: AssetImage('images/cover.png'),
             fit: BoxFit.cover,
           ),
-        ) /* add child content here */,
+        ),
       ),
 
       // Degradado

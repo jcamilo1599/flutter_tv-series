@@ -4,77 +4,102 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../config/use_case_config.dart';
 import '../../../../domain/models/login/login.dart';
 import '../../../common/tokens/colors.dart';
+import '../../../common/tokens/numbers.dart';
 
-class LoginSheet extends ConsumerWidget {
+class LoginSheet extends ConsumerStatefulWidget {
   final Null Function() onDismiss;
 
-  LoginSheet({
+  const LoginSheet({
     required this.onDismiss,
     Key? key,
   }) : super(key: key);
 
-  // Determina si mostrara o no la animación de cargando
   static final StateProvider<bool> loadingProvider =
       StateProvider<bool>((_) => false);
 
+  @override
+  _LoginSheetState createState() => _LoginSheetState();
+}
+
+class _LoginSheetState extends ConsumerState<LoginSheet> {
   final UseCaseConfig _config = UseCaseConfig();
 
-  final FocusNode focusName = FocusNode();
-  final FocusNode focusPass = FocusNode();
-  final TextEditingController controllerName = TextEditingController();
-  final TextEditingController controllerPass = TextEditingController();
+  // Campos de texto
+  late final FocusNode focusName;
+  late final FocusNode focusPass;
+  late final TextEditingController controllerName;
+  late final TextEditingController controllerPass;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final bool showLoading = ref.watch(loadingProvider);
+  void initState() {
+    super.initState();
 
-    return Container(
-      decoration: BoxDecoration(
-        color: TokensColors.black.withOpacity(.9),
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(30),
-          topRight: Radius.circular(30),
+    focusName = FocusNode();
+    focusPass = FocusNode();
+    controllerName = TextEditingController();
+    controllerPass = TextEditingController();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bool showLoading = ref.watch(LoginSheet.loadingProvider);
+
+    return SingleChildScrollView(
+      child: Container(
+        decoration: BoxDecoration(
+          color: TokensColors.black.withOpacity(.9),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
         ),
-      ),
-      padding: const EdgeInsets.all(22),
-      child: Column(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.topRight,
-            child: IconButton(
-              icon: const Icon(Icons.close),
-              color: TokensColors.gray,
-              onPressed: () {
-                Navigator.pop(context);
-                onDismiss();
-              },
+        padding: EdgeInsets.fromLTRB(
+          22,
+          22,
+          22,
+          MediaQuery.of(context).viewInsets.bottom + 80,
+        ),
+        child: Column(
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: const Icon(Icons.close),
+                color: TokensColors.gray,
+                onPressed: () {
+                  Navigator.pop(context);
+                  widget.onDismiss();
+                },
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          TextField(
-            enabled: !showLoading,
-            autocorrect: false,
-            focusNode: focusName,
-            controller: controllerName,
-            keyboardType: TextInputType.text,
-            style: Theme.of(context).textTheme.bodyText1,
-            decoration: const InputDecoration(hintText: 'Name'),
-          ),
-          const SizedBox(height: 40),
-          TextField(
-            enabled: !showLoading,
-            obscureText: true,
-            autocorrect: false,
-            focusNode: focusPass,
-            controller: controllerPass,
-            keyboardType: TextInputType.text,
-            style: Theme.of(context).textTheme.bodyText1,
-            decoration: const InputDecoration(hintText: 'Password'),
-          ),
-          const Spacer(),
-          _buildButton(context, ref, show: showLoading),
-          const SizedBox(height: 60),
-        ],
+            const SizedBox(height: 20),
+            TextField(
+              enabled: !showLoading,
+              autocorrect: false,
+              focusNode: focusName,
+              controller: controllerName,
+              keyboardType: TextInputType.text,
+              style: Theme.of(context).textTheme.bodyText1,
+              decoration: const InputDecoration(hintText: 'Name'),
+              onSubmitted: (String value) =>
+                  FocusScope.of(context).requestFocus(focusPass),
+            ),
+            const SizedBox(height: 40),
+            TextField(
+              enabled: !showLoading,
+              obscureText: true,
+              autocorrect: false,
+              focusNode: focusPass,
+              controller: controllerPass,
+              keyboardType: TextInputType.text,
+              style: Theme.of(context).textTheme.bodyText1,
+              decoration: const InputDecoration(hintText: 'Password'),
+              onSubmitted: (_) => _onLogIn(context, ref),
+            ),
+            const SizedBox(height: 60),
+            _buildButton(context, ref, show: showLoading),
+          ],
+        ),
       ),
     );
   }
@@ -111,8 +136,8 @@ class LoginSheet extends ConsumerWidget {
 
     if (show) {
       response = Container(
-        width: 16,
-        height: 16,
+        width: TokensNum.mainSpacing,
+        height: TokensNum.mainSpacing,
         margin: const EdgeInsets.only(left: 14),
         child: const CircularProgressIndicator(strokeWidth: 2),
       );
@@ -122,7 +147,7 @@ class LoginSheet extends ConsumerWidget {
   }
 
   void _onLogIn(BuildContext context, WidgetRef ref) {
-    ref.read(loadingProvider.state).state = true;
+    ref.read(LoginSheet.loadingProvider.state).state = true;
 
     final LoginModel data = LoginModel(
       name: controllerName.text,

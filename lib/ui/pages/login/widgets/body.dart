@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../config/use_case_config.dart';
 import '../../../common/tokens/colors.dart';
+import '../../../common/tokens/numbers.dart';
 
 class LoginBody extends ConsumerWidget {
   LoginBody({Key? key}) : super(key: key);
@@ -38,13 +39,14 @@ class LoginBody extends ConsumerWidget {
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: TokensNum.mainSpacing),
         _buildButton(
           ref,
           child: ElevatedButton(
             onPressed: () => _onLogIn(context, ref),
-            style:
-                ElevatedButton.styleFrom(backgroundColor: TokensColors.white),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: TokensColors.white,
+            ),
             child: Text(
               'Log in',
               style: Theme.of(context).textTheme.bodyText1?.copyWith(
@@ -54,7 +56,7 @@ class LoginBody extends ConsumerWidget {
             ),
           ),
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: TokensNum.mainSpacing),
         _buildButton(
           ref,
           child: TextButton(

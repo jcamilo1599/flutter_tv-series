@@ -6,6 +6,7 @@ import '../../../config/use_case_config.dart';
 import '../../../domain/models/series/series/serie.dart';
 import '../../../resources/environments/environments.dart';
 import '../../common/atoms/no_image.dart';
+import '../../common/molecules/app_bar.dart';
 import '../../common/molecules/stars.dart';
 import '../../common/tokens/colors.dart';
 
@@ -22,10 +23,7 @@ class SeriePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Popular'),
-        centerTitle: false,
-      ),
+      appBar: const MoleculesAppBar(title: Text('Popular')),
       body: _buildBody(context, ref),
     );
   }
@@ -37,6 +35,7 @@ class SeriePage extends ConsumerWidget {
         MediaQuery.of(context).padding.bottom -
         AppBar().preferredSize.height;
 
+    // Obtiene las series guardadas en popular
     final List<SerieModel> series = _config.seriesUseCase.getPopular(ref);
 
     return SafeArea(
@@ -78,7 +77,8 @@ class SeriePage extends ConsumerWidget {
               ),
               const SizedBox(height: 6),
               ElevatedButton(
-                onPressed: () => _config.watchNowUseCase.watch(context, idSerie: serie.id!),
+                onPressed: () =>
+                    _config.watchNowUseCase.watch(context, idSerie: serie.id!),
                 child: Text(
                   'Watch Now',
                   style: Theme.of(context).textTheme.bodyText1?.copyWith(

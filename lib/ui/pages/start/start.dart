@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../config/use_case_config.dart';
 import '../../../domain/models/start.dart';
+import '../../common/molecules/app_bar.dart';
 import 'widgets/favorites/favorites.dart';
 import 'widgets/home/home.dart';
 import 'widgets/recents/recents.dart';
@@ -18,6 +19,8 @@ class StartPage extends ConsumerStatefulWidget {
 
 class _StartPageState extends ConsumerState<StartPage> {
   final UseCaseConfig _config = UseCaseConfig();
+
+  // Determina la página del navBar en la que se encuentra el usuario
   late final StateProvider<int> selectedNavBarProvider;
 
   @override
@@ -31,11 +34,12 @@ class _StartPageState extends ConsumerState<StartPage> {
     final int selectedNavBar = ref.watch(selectedNavBarProvider);
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: MoleculesAppBar(
         title: Text(
           _options[selectedNavBar].title,
           style: Theme.of(context).textTheme.headline6,
         ),
+        centerTitle: true,
         actions: <Widget>[
           IconButton(
             onPressed: () => _config.startUseCase.closeSession(context, ref),
@@ -53,12 +57,12 @@ class _StartPageState extends ConsumerState<StartPage> {
     required int selectedNavBar,
   }) {
     return BottomNavigationBar(
-      items: _options
-          .map((PageModel option) => BottomNavigationBarItem(
-                icon: Icon(option.icon),
-                label: option.title,
-              ))
-          .toList(),
+      items: _options.map((PageModel option) {
+        return BottomNavigationBarItem(
+          icon: Icon(option.icon),
+          label: option.title,
+        );
+      }).toList(),
       currentIndex: selectedNavBar,
       selectedItemColor: Colors.amber[800],
       onTap: (int index) => _onNavBarChange(ref, index),

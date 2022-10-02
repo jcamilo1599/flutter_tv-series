@@ -24,9 +24,7 @@ class SeriesApi extends SeriesApiGateway {
         json.decode(utf8.decode(httpResponse.bodyBytes)),
       );
     } on Exception catch (error) {
-      response = SeriesApiRespModel(
-        message: apiError(error),
-      );
+      response = SeriesApiRespModel(message: apiError(error));
     }
 
     return response;
@@ -45,9 +43,7 @@ class SeriesApi extends SeriesApiGateway {
         json.decode(utf8.decode(httpResponse.bodyBytes)),
       );
     } on Exception catch (error) {
-      response = SeriesApiRespModel(
-        message: apiError(error),
-      );
+      response = SeriesApiRespModel(message: apiError(error));
     }
 
     return response;
@@ -66,9 +62,7 @@ class SeriesApi extends SeriesApiGateway {
         json.decode(utf8.decode(httpResponse.bodyBytes)),
       );
     } on Exception catch (error) {
-      response = SerieModel(
-        message: apiError(error),
-      );
+      response = SerieModel(message: apiError(error));
     }
 
     return response;
@@ -90,9 +84,7 @@ class SeriesApi extends SeriesApiGateway {
         json.decode(utf8.decode(httpResponse.bodyBytes)),
       );
     } on Exception catch (error) {
-      response = SeriesSeasonApiRespModel(
-        message: apiError(error),
-      );
+      response = SeriesSeasonApiRespModel(message: apiError(error));
     }
 
     return response;
@@ -115,9 +107,7 @@ class SeriesApi extends SeriesApiGateway {
         json.decode(utf8.decode(httpResponse.bodyBytes)),
       );
     } on Exception catch (error) {
-      response = SeriesEpisodeApiRespModel(
-        message: apiError(error),
-      );
+      response = SeriesEpisodeApiRespModel(message: apiError(error));
     }
 
     return response;
@@ -136,9 +126,7 @@ class SeriesApi extends SeriesApiGateway {
         json.decode(utf8.decode(httpResponse.bodyBytes)),
       );
     } on Exception catch (error) {
-      response = SeriesApiRespModel(
-        message: apiError(error),
-      );
+      response = SeriesApiRespModel(message: apiError(error));
     }
 
     return response;

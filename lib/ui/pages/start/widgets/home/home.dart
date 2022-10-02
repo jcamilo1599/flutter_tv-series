@@ -6,6 +6,7 @@ import '../../../../../domain/models/series/series/serie.dart';
 import '../../../../../domain/models/series/series/series_api_resp.dart';
 import '../../../../common/organisms/movie_horizontal.dart';
 import '../../../../common/organisms/movie_vertical.dart';
+import '../../../../common/tokens/numbers.dart';
 
 class HomePage extends ConsumerWidget {
   final UseCaseConfig _config = UseCaseConfig();
@@ -15,7 +16,7 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ListView(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: TokensNum.mainSpacing),
       children: <Widget>[
         _buildBuilderPopular(context, ref),
         const Divider(),
@@ -79,11 +80,11 @@ class HomePage extends ConsumerWidget {
           'Popular',
           style: Theme.of(context).textTheme.headline5,
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: TokensNum.mainSpacing),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Wrap(
-            spacing: 16,
+            spacing: TokensNum.mainSpacing,
             children: List<OrgMovieH>.generate(results.length, (int index) {
               return OrgMovieH(
                 serie: results[index],
@@ -121,12 +122,12 @@ class HomePage extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const SizedBox(height: 16),
+        const SizedBox(height: TokensNum.mainSpacing),
         Text(
           'Recommendations',
           style: Theme.of(context).textTheme.headline5,
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: TokensNum.mainSpacing),
         Column(
           children: List<OrgMovieV>.generate(results.length, (int index) {
             return OrgMovieV(serie: results[index]);

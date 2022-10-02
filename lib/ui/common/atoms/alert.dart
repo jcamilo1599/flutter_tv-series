@@ -22,7 +22,7 @@ class AtomAlert extends ConsumerWidget {
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cerrar'),
+          child: const Text('Close'),
         ),
       ],
     );

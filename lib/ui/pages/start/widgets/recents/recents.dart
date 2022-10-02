@@ -5,6 +5,7 @@ import '../../../../../config/use_case_config.dart';
 import '../../../../../domain/models/series/series/serie.dart';
 import '../../../../../domain/models/series/series/series_api_resp.dart';
 import '../../../../common/atoms/image_network.dart';
+import '../../../../common/tokens/numbers.dart';
 
 class RecentsPage extends ConsumerWidget {
   RecentsPage({Key? key}) : super(key: key);
@@ -44,7 +45,7 @@ class RecentsPage extends ConsumerWidget {
         return Column(
           children: <Widget>[
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(TokensNum.borderRadius),
               child: SizedBox(
                 height: 360,
                 child: AtomsImageNetwork(path: series[index].posterPath!),
@@ -56,7 +57,7 @@ class RecentsPage extends ConsumerWidget {
               style: Theme.of(context).textTheme.headline3,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: TokensNum.mainSpacing),
             Text(
               '- episodes of ${series[index].numberOfEpisodes ?? '-'}',
               style: Theme.of(context).textTheme.bodySmall,

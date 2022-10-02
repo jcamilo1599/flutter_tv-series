@@ -22,6 +22,7 @@ class OrgMovieV extends ConsumerStatefulWidget {
 class _OrgMovieVState extends ConsumerState<OrgMovieV> {
   final UseCaseConfig _config = UseCaseConfig();
 
+  // Determinara si el icono será de relleno o solo el borde
   late final StateProvider<IconData> iconProvider;
 
   @override
@@ -87,15 +88,7 @@ class _OrgMovieVState extends ConsumerState<OrgMovieV> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
-                      _config.favoritesUseCase
-                          .addFavorite(ref, serie: widget.serie);
-
-                      // Cambia el icono
-                      ref.read(iconProvider.notifier).state = _config
-                          .favoritesUseCase
-                          .check(ref, idSerie: widget.serie.id!);
-                    },
+                    onPressed: _onPressedIcon,
                     icon: Icon(
                       ref.watch(iconProvider),
                       color: TokensColors.yellow,
@@ -108,5 +101,13 @@ class _OrgMovieVState extends ConsumerState<OrgMovieV> {
         ],
       ),
     );
+  }
+
+  void _onPressedIcon() {
+    _config.favoritesUseCase.addFavorite(ref, serie: widget.serie);
+
+    // Cambia el icono
+    ref.read(iconProvider.notifier).state =
+        _config.favoritesUseCase.check(ref, idSerie: widget.serie.id!);
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../tokens/colors.dart';
+import '../tokens/numbers.dart';
 
 class MoleculesStars extends ConsumerWidget {
   final double stars;
@@ -15,10 +16,10 @@ class MoleculesStars extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: List<Widget>.generate(5, (int index) {
+      children: List<Widget>.generate(TokensNum.starsNumber, (int index) {
         return Icon(
           _buildIcon(index),
-          size: 13,
+          size: TokensNum.starsSize,
           color: TokensColors.gray,
         );
       }),
@@ -26,9 +27,12 @@ class MoleculesStars extends ConsumerWidget {
   }
 
   IconData _buildIcon(int index) {
-    return (stars > index && stars > (index + 1))
+    final bool isStar = stars > index && stars > (index + 1);
+    final bool isStarHalf = stars > index;
+
+    return isStar
         ? Icons.star
-        : (stars > index)
+        : isStarHalf
             ? Icons.star_half
             : Icons.star_border_sharp;
   }

@@ -8,7 +8,9 @@ import '../../../domain/models/series/series_season/series_season_api_resp.dart'
 import '../../common/atoms/divider_vertical.dart';
 import '../../common/atoms/image_network.dart';
 import '../../common/atoms/no_image.dart';
+import '../../common/molecules/app_bar.dart';
 import '../../common/tokens/colors.dart';
+import '../../common/tokens/numbers.dart';
 
 class WatchNowPage extends ConsumerStatefulWidget {
   final int idSerie;
@@ -25,11 +27,19 @@ class WatchNowPage extends ConsumerStatefulWidget {
 class _WatchNowPageState extends ConsumerState<WatchNowPage> {
   final UseCaseConfig _config = UseCaseConfig();
 
+  // Determina si mostrar o no la animación de cargando
   late final StateProvider<bool> loadingProvider;
+
+  // Almacenara el información de la serie
   late final StateProvider<SerieModel?> serieProvider;
+
+  // Almacenara la información de la temporada de la serie
   late final StateProvider<SeriesSeasonApiRespModel?> seasonProvider;
+
+  // Determinara si el icono será de relleno o solo el borde
   late final StateProvider<IconData> iconProvider;
 
+  // Lista horizontal
   final PageController _controller = PageController();
   static const Duration _transitionDuration = Duration(milliseconds: 400);
   static const Cubic _transitionCurve = Curves.ease;
@@ -53,18 +63,18 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isLoading = ref.watch(loadingProvider.state).state;
     final bool showBody = !ref.watch(loadingProvider.state).state &&
         ref.watch(serieProvider.state).state != null &&
         ref.watch(seasonProvider.state).state != null;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: MoleculesAppBar(
         title: _buildTitle(),
-        centerTitle: false,
-        actions: <Widget>[_buildAction()],
+        actions: <Widget>[_buildHeart()],
       ),
       body: SafeArea(
-        child: (ref.watch(loadingProvider.state).state)
+        child: isLoading
             ? _buildLoading()
             : showBody
                 ? _buildBody()
@@ -74,24 +84,15 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
   }
 
   Widget _buildError() {
-    Widget response = const SizedBox.shrink();
-    final bool showError = !ref.watch(loadingProvider.state).state &&
-        (ref.watch(serieProvider.state).state == null ||
-            ref.watch(seasonProvider.state).state == null);
-
-    if (showError) {
-      response = Container(
-        padding: const EdgeInsets.all(20),
-        alignment: Alignment.center,
-        child: Text(
-          'Se produjo un error, no se pudo cargar la serie.',
-          style: Theme.of(context).textTheme.bodyText1,
-          textAlign: TextAlign.center,
-        ),
-      );
-    }
-
-    return response;
+    return Container(
+      padding: const EdgeInsets.all(20),
+      alignment: Alignment.center,
+      child: Text(
+        'Se produjo un error, no se pudo cargar la serie.',
+        style: Theme.of(context).textTheme.bodyText1,
+        textAlign: TextAlign.center,
+      ),
+    );
   }
 
   Widget _buildTitle() {
@@ -111,23 +112,17 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
   }
 
   Widget _buildLoading() {
-    Widget response = const SizedBox.shrink();
-
-    if (ref.watch(loadingProvider.state).state) {
-      response = Align(
-        child: Container(
-          margin: const EdgeInsets.all(40),
-          width: 40,
-          height: 40,
-          child: const CircularProgressIndicator(),
-        ),
-      );
-    }
-
-    return response;
+    return Align(
+      child: Container(
+        margin: const EdgeInsets.all(40),
+        width: 40,
+        height: 40,
+        child: const CircularProgressIndicator(),
+      ),
+    );
   }
 
-  Widget _buildAction() {
+  Widget _buildHeart() {
     Widget response = const SizedBox.shrink();
 
     final SerieModel? serie = ref.watch(serieProvider.state).state;
@@ -137,13 +132,7 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
 
     if (showAction) {
       response = IconButton(
-        onPressed: () {
-          _config.favoritesUseCase.addFavorite(ref, serie: serie);
-
-          // Cambia el icono
-          ref.read(iconProvider.notifier).state =
-              _config.favoritesUseCase.check(ref, idSerie: serie.id!);
-        },
+        onPressed: () => _onPressedHeart(serie),
         icon: Icon(
           ref.watch(iconProvider),
           color: TokensColors.yellow,
@@ -179,14 +168,7 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
                 ),
                 const Spacer(),
                 TextButton(
-                  onPressed: index > 0
-                      ? () {
-                          _controller.previousPage(
-                            duration: _transitionDuration,
-                            curve: _transitionCurve,
-                          );
-                        }
-                      : null,
+                  onPressed: index > 0 ? _onPressedPrevious : null,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: const <Widget>[
@@ -197,14 +179,8 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
                   ),
                 ),
                 TextButton(
-                  onPressed: (episodes.length - 1) > index
-                      ? () {
-                          _controller.nextPage(
-                            duration: _transitionDuration,
-                            curve: _transitionCurve,
-                          );
-                        }
-                      : null,
+                  onPressed:
+                      (episodes.length - 1) > index ? _onPressedNext : null,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: const <Widget>[
@@ -225,7 +201,7 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              height: 16,
+              height: TokensNum.mainSpacing,
               child: Row(
                 children: <Widget>[
                   Text(
@@ -258,7 +234,7 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
 
   Widget _buildImage(String? poster) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(TokensNum.borderRadius),
       child: SizedBox(
         width: double.infinity,
         height: 220,
@@ -285,5 +261,27 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
     );
 
     ref.read(loadingProvider.notifier).state = false;
+  }
+
+  void _onPressedHeart(SerieModel serie) {
+    _config.favoritesUseCase.addFavorite(ref, serie: serie);
+
+    // Cambia el icono
+    ref.read(iconProvider.notifier).state =
+        _config.favoritesUseCase.check(ref, idSerie: serie.id!);
+  }
+
+  void _onPressedPrevious() {
+    _controller.previousPage(
+      duration: _transitionDuration,
+      curve: _transitionCurve,
+    );
+  }
+
+  void _onPressedNext() {
+    _controller.nextPage(
+      duration: _transitionDuration,
+      curve: _transitionCurve,
+    );
   }
 }

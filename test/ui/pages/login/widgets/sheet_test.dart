@@ -12,5 +12,7 @@ void main() {
 
     await tester.pumpWidget(widget);
     await tester.tap(find.byType(IconButton));
+
+    expect(find.byType(ElevatedButton), findsOneWidget);
   });
 }

@@ -20,6 +20,7 @@ class LoginUseCase {
       enableDrag: false,
       isDismissible: false,
       barrierColor: Colors.transparent,
+      isScrollControlled: true,
       builder: (_) => LoginSheet(onDismiss: onDismiss),
     );
   }

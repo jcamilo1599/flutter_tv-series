@@ -20,6 +20,6 @@ void main() {
     await tester.pump();
     expect(find.text(title), findsOneWidget);
     expect(find.text(description), findsOneWidget);
-    expect(find.text('Cerrar'), findsOneWidget);
+    expect(find.text('Close'), findsOneWidget);
   });
 }

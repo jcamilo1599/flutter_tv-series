@@ -13,7 +13,7 @@ class AtomsNoImage extends StatelessWidget {
           image: AssetImage('images/no-image.jpg'),
           fit: BoxFit.cover,
         ),
-      ) /* add child content here */,
+      ),
     );
   }
 }
