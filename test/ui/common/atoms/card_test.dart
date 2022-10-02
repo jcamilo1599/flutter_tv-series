@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:network_image_mock/network_image_mock.dart';
-import 'package:tv_series/ui/common/atoms/card.dart';
+import 'package:tv_series/ui/common/molecules/card.dart';
 
 void main() {
   testWidgets('Atoms - Card', (WidgetTester tester) async {

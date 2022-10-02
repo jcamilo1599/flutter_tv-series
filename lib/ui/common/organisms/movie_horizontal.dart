@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/models/series/series/serie.dart';
-import '../atoms/card.dart';
+import '../molecules/card.dart';
 import '../molecules/stars.dart';
 
 class OrgMovieH extends ConsumerWidget {
@@ -25,7 +25,7 @@ class OrgMovieH extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            AtomCard(poster: serie.posterPath!),
+            MoleculesCard(poster: serie.posterPath!),
             Text(
               serie.name ?? '',
               style: Theme.of(context).textTheme.bodyText1,

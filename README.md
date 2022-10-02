@@ -16,10 +16,10 @@ visto recientes.
 
 # Versión
 
-- Flutter 3.3.2 • channel stable
-- Framework • revision e3c29ec00c (2 weeks ago) • 2022-09-14 08:46:55 -0500
-- Engine • revision a4ff2c53d8
-- Tools • Dart 2.18.1 • DevTools 2.15.0
+- Flutter 3.3.3 • channel stable
+- Framework • revision 18a827f393 (3 days ago) • 2022-09-28 10:03:14 -0700
+- Engine • revision 5c984c26eb
+- Tools • Dart 2.18.2 • DevTools 2.15.0
 
 # Compilación
 

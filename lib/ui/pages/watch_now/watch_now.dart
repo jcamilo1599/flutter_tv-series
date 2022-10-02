@@ -5,8 +5,9 @@ import '../../../config/use_case_config.dart';
 import '../../../domain/models/series/series/serie.dart';
 import '../../../domain/models/series/series_season/series_season_api_resp.dart';
 import '../../common/atoms/divider_vertical.dart';
-import '../../common/atoms/image.dart';
+import '../../common/atoms/image_network.dart';
 import '../../common/atoms/no_image.dart';
+import '../../common/tokens/colors.dart';
 
 class WatchNowPage extends ConsumerStatefulWidget {
   final int idSerie;
@@ -23,9 +24,10 @@ class WatchNowPage extends ConsumerStatefulWidget {
 class _WatchNowPageState extends ConsumerState<WatchNowPage> {
   final UseCaseConfig _config = UseCaseConfig();
 
-  late StateProvider<bool> loadingProvider;
-  late StateProvider<SerieModel?> serieProvider;
-  late StateProvider<SeriesSeasonApiRespModel?> seasonProvider;
+  late final StateProvider<bool> loadingProvider;
+  late final StateProvider<SerieModel?> serieProvider;
+  late final StateProvider<SeriesSeasonApiRespModel?> seasonProvider;
+  late final StateProvider<IconData> iconProvider;
 
   @override
   void initState() {
@@ -34,6 +36,10 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
     loadingProvider = StateProvider<bool>((_) => true);
     serieProvider = StateProvider<SerieModel?>((_) => null);
     seasonProvider = StateProvider<SeriesSeasonApiRespModel?>((_) => null);
+
+    iconProvider = StateProvider<IconData>(
+      (_) => _config.favoritesUseCase.check(ref, idSerie: widget.idSerie),
+    );
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _getSerie();
@@ -83,13 +89,11 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
   }
 
   Widget _buildTitle() {
+    final SerieModel? serie = ref.watch(serieProvider.state).state;
+
     return ref.watch(loadingProvider.state).state
         ? _buildLoadingTitle()
-        : Text(
-            ref.watch(serieProvider.state).state != null
-                ? ref.watch(serieProvider.state).state!.name!
-                : 'Upps...',
-          );
+        : Text(serie != null ? serie.name! : 'Upps...');
   }
 
   Widget _buildLoadingTitle() {
@@ -119,20 +123,25 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
 
   Widget _buildAction() {
     Widget response = const SizedBox.shrink();
+
+    final SerieModel? serie = ref.watch(serieProvider.state).state;
     final bool showAction = !ref.watch(loadingProvider.state).state &&
-        ref.watch(serieProvider.state).state != null &&
-        ref.watch(seasonProvider.state).state != null;
+        ref.watch(seasonProvider.state).state != null &&
+        serie != null;
 
     if (showAction) {
-      // TODO: validar si ya esta en favoritos
       response = IconButton(
         onPressed: () {
-          _config.favoritesUseCase.addFavorite(
-            ref,
-            serie: ref.watch(serieProvider.state).state!,
-          );
+          _config.favoritesUseCase.addFavorite(ref, serie: serie);
+
+          // Cambia el icono
+          ref.read(iconProvider.notifier).state =
+              _config.favoritesUseCase.check(ref, idSerie: serie.id!);
         },
-        icon: const Icon(Icons.favorite_border),
+        icon: Icon(
+          ref.watch(iconProvider),
+          color: TokensColors.yellow,
+        ),
       );
     }
 
@@ -176,7 +185,7 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
                 ),
                 const AtomsDividerV(),
                 Text(
-                  '${serie.seasons!.length} Seasons',
+                  '${serie.numberOfSeasons} Seasons',
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ],

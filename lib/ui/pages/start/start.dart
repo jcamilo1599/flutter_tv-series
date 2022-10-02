@@ -7,19 +7,27 @@ import 'widgets/favorites/favorites.dart';
 import 'widgets/home/home.dart';
 import 'widgets/recents/recents.dart';
 
-class StartPage extends ConsumerWidget {
+class StartPage extends ConsumerStatefulWidget {
   static const String routeName = '/';
 
-  StartPage({Key? key}) : super(key: key);
-
-  final UseCaseConfig _config = UseCaseConfig();
-
-  // Determina si los botones del cuerpo se mostraran
-  final StateProvider<int> selectedNavBarProvider =
-      StateProvider<int>((_) => 0);
+  const StartPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _StartPageState createState() => _StartPageState();
+}
+
+class _StartPageState extends ConsumerState<StartPage> {
+  final UseCaseConfig _config = UseCaseConfig();
+  late final StateProvider<int> selectedNavBarProvider;
+
+  @override
+  void initState() {
+    selectedNavBarProvider = StateProvider<int>((_) => 0);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final int selectedNavBar = ref.watch(selectedNavBarProvider);
 
     return Scaffold(
