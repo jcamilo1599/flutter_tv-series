@@ -23,13 +23,13 @@ class _OrgMovieVState extends ConsumerState<OrgMovieV> {
   final UseCaseConfig _config = UseCaseConfig();
 
   // Determinara si el icono será de relleno o solo el borde
-  late final StateProvider<IconData> iconProvider;
+  late final StateProvider<bool> iconProvider;
 
   @override
   void initState() {
     super.initState();
 
-    iconProvider = StateProvider<IconData>(
+    iconProvider = StateProvider<bool>(
       (_) => _config.favoritesUseCase.check(ref, idSerie: widget.serie.id!),
     );
   }
@@ -90,7 +90,9 @@ class _OrgMovieVState extends ConsumerState<OrgMovieV> {
                   IconButton(
                     onPressed: _onPressedIcon,
                     icon: Icon(
-                      ref.watch(iconProvider),
+                      ref.watch(iconProvider)
+                          ? Icons.favorite
+                          : Icons.favorite_border,
                       color: TokensColors.yellow,
                     ),
                   )

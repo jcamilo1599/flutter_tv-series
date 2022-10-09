@@ -37,7 +37,7 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
   late final StateProvider<SeriesSeasonApiRespModel?> seasonProvider;
 
   // Determinara si el icono será de relleno o solo el borde
-  late final StateProvider<IconData> iconProvider;
+  late final StateProvider<bool> iconProvider;
 
   // Lista horizontal
   final PageController _controller = PageController();
@@ -52,7 +52,7 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
     serieProvider = StateProvider<SerieModel?>((_) => null);
     seasonProvider = StateProvider<SeriesSeasonApiRespModel?>((_) => null);
 
-    iconProvider = StateProvider<IconData>(
+    iconProvider = StateProvider<bool>(
       (_) => _config.favoritesUseCase.check(ref, idSerie: widget.idSerie),
     );
 
@@ -134,7 +134,7 @@ class _WatchNowPageState extends ConsumerState<WatchNowPage> {
       response = IconButton(
         onPressed: () => _onPressedHeart(serie),
         icon: Icon(
-          ref.watch(iconProvider),
+          ref.watch(iconProvider) ? Icons.favorite : Icons.favorite_border,
           color: TokensColors.yellow,
         ),
       );

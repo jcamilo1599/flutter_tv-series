@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../config/provider.dart';
@@ -37,13 +36,13 @@ class FavoritesUseCase {
     return series;
   }
 
-  IconData check(
+  bool check(
     WidgetRef ref, {
     required int idSerie,
   }) {
     final String data = ref.watch(sessionProvider.notifier).favorites;
     final List<SerieModel> seriesList = SeriesMapper.list(data);
     final int serieIndex = SeriesHelper.getSerieIndex(seriesList, idSerie);
-    return serieIndex > -1 ? Icons.favorite : Icons.favorite_border;
+    return serieIndex > -1;
   }
 }

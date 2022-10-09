@@ -118,15 +118,19 @@ class _LoginSheetState extends ConsumerState<LoginSheet> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Text(
-            'Log in',
-            style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                  fontSize: 17,
-                  color: TokensColors.black,
-                ),
-          ),
+          _buildText(),
           _buildLoading(show)
         ],
+      ),
+    );
+  }
+
+  Widget _buildText() {
+    return Text(
+      'Log in',
+      style: Theme.of(context).textTheme.bodyText1?.copyWith(
+        fontSize: 17,
+        color: TokensColors.black,
       ),
     );
   }
